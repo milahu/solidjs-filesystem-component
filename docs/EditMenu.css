@@ -1,0 +1,1 @@
+ul{list-style:none;padding-left:0}li>ul{padding-left:1rem}li.file:before{content:"\2022  "}li.dir:before{content:"\23f5  ";line-height:50%}li.dir.open:before{content:"\23f7  ";line-height:50%}li.file>div,li.dir>div{display:inline-block;cursor:pointer}
