@@ -1,6 +1,6 @@
 import { createSignal, createEffect } from "solid-js";
 
-import { FileSystemProvider, useFileSystem, FileSystemView } from "../../src/index.js"
+import { FileSystemProvider, useFileSystem, FileSystemView } from "../../index.js"
 
 import pify from "pify";
 
