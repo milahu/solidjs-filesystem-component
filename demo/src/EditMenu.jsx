@@ -23,39 +23,25 @@ export default function EditMenuWrapper() {
 
   async function getFs() {
 
-    //const fs = new LightningFS('fs') // old data. TODO implement "rm -rf"
-    //const fs = new LightningFS('fs2');
+    //const fs = new LightningFS('fs')
 
-    // Installs globals onto window:
-    // * Buffer
-    // * require (monkey-patches if already defined)
-    // * process
-    // You can pass in an arbitrary object if you do not wish to pollute
-    // the global namespace.
-    const fsGlobal = {
-      //require: (/** @type {string} */ _name) => undefined,
-    };
-    // @ts-ignore Expected 0 arguments, but got 1.ts(2554)
+    /*
+    const rootFs = await pify(BrowserFS.FileSystem.MountableFileSystem.Create)({
+      '/tmp': await pify(BrowserFS.FileSystem.InMemory.Create)({}),
+      '/home': await pify(BrowserFS.FileSystem.IndexedDB.Create)({}),
+      //'/mnt/usb0': await pify(BrowserFS.FileSystem.LocalStorage.Create)({}),
+    });
+    */
+    const rootFs = await pify(BrowserFS.FileSystem.IndexedDB.Create)({});
+    BrowserFS.initialize(rootFs);
+
+    const fsGlobal = {};
     BrowserFS.install(fsGlobal);
 
-    debug && console.log("FileSystem.jsx: BrowserFS.configure");
-    await BrowserFS.configure({
-      fs: "MountableFileSystem",
-      options: {
-        "/": {
-          fs: "IndexedDB",
-          // fix: TypeError: Cannot read properties of undefined (reading 'storeName') 
-          // https://github.com/jvilk/BrowserFS/issues/336
-          options: {},
-        },
-        //"/tmp": {
-        //  fs: "InMemory",
-        //},
-      },
-    });
     /** @type {typeof import("fs")} */
     // @ts-ignore
     const fs = fsGlobal.require("fs");
+
     return fs;
   }
 
